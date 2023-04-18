@@ -73,4 +73,41 @@ Exibi um gráfico de coluna para responder tal questão:
 
 ![](./img/img_4.png)
 
+Como é observável acima, metade dos segurados que estão acima do peso apresentam tem um custo de seguro médico acima de $ 9 mil dólares, já os segurados com peso normal têm um custo de seguro médico acima ou abaixo de $ 8 mil dólares (com base na mediana).
+
+**(4)** **Qual é a distribuição estatística do IMC dos segurados?**
+
+Basicamente, com base em informações estatisticamente gerais:
+
+* Os segurados em média tem um IMC de 30, isto significa que os segurados aproximadamente tendem à ter um IMC que os classifica como obesos
+* O percentil de 25 % é 26, ou seja, isto significa que 25 % dos segurados têm um IMC saudável abaixo de 26, e ao mesmo tempo 75 % dos segurados estão com IMC acima de 25, o quê significa que 75 % dos segurados estão acima do peso
+* O percentil de 75 % é 34, o que sinaliza que 75 % dos segurados tem um IMC abaixo da obesidade severa, enquanto que 25 % dos segurados estão dentro do grupo de obesidade severa (**pela classificação do IMC**)
+
+Um gráfico de histograma com uma curva de densidade expressa a distribuição de IMC dos segurados:
+
+![](./img/img_5.png)
+
+Pelo gráfico acima, é visível uma distribuição simétrica em que a maioria dos dados estão em torno da média, o quê significa que a maioria dos segurados tem um IMC em torno de 30, ou em outras palavras, tal dado sinaliza que a maioria dos segurados estão na faixa de obesidade.
+
+**(5)** **Qual é a mediana de custos de seguro médico por fumantes e não-fumantes?**
+
+No conjunto de dados, quase 80 % dos segurados são não-fumantes, enquanto 20 % são fumantes.
+
+Já na tabela abaixo, é exposto a mediana de custos de seguro médico de fumantes e não-fumantes:
+
+|       smoker   |    median_charges  |
+|----------------|--------------------|
+|       yes      |      34456.35      |
+|       no       |      7345.41       |
+
+O principal insight extraído da tabela acima é:
+
+* 50 % dos segurados fumantes tem um custo de seguro médico acima de $ 34 mil dólares, enquanto 50 % dos não-fumantes tem um custo de seguro superior ou inferior somente à $ 7 mil dólares.
+
+Em gráfico, com um histograma é possível ver essa disparidade ou diferença de custos de seguro médico entre os grupos de segurados fumantes e não-fumantes:
+
+![](./img/img_7.png)
+
+Como é observado acima, o custo de seguro médico de não-fumantes frequentemente é abaixo de $ 10 mil dólares, enquanto o custo de seguro médico de fumantes pela frequência está concentrado na faixa de $ 20 mil dólares.
+
 
