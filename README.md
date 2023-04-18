@@ -110,4 +110,20 @@ Em gráfico, com um histograma é possível ver essa disparidade ou diferença d
 
 Como é observado acima, o custo de seguro médico de não-fumantes frequentemente é abaixo de $ 10 mil dólares, enquanto o custo de seguro médico de fumantes pela frequência está concentrado na faixa de $ 20 mil dólares.
 
+**(6)** **Qual é a mediana de custos de seguro médico por região?**
 
+Basicamente, às regiões de segurados presentes nessa empresa de seguro são **(1)** sudeste (com 27 % de segurados), **(2)** sudoeste (com 24 %), **(3)** noroeste (com 24 %), e **(4)** nordeste (com 24 %).
+
+Com um gráfico de coluna, tal pergunta é facilmente respondida:
+
+![](./img/img_8.png)
+
+O nordeste é a região em que 50 % dos segurados têm um custo superior à $ 10 mil dólares.
+
+Enquanto às demais regiões, com base na mediana de custos, apresentam um custo de seguro médico aproximadamente semelhante.
+
+**(7)** **Qual é a distribuição estatística do custos de seguro médico?**
+
+Com base nas informações estatísticas do custos de seguro médico é possível extrair os seguintes insights:
+
+* 
