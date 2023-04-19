@@ -110,20 +110,97 @@ Em gráfico, com um histograma é possível ver essa disparidade ou diferença d
 
 Como é observado acima, o custo de seguro médico de não-fumantes frequentemente é abaixo de $ 10 mil dólares, enquanto o custo de seguro médico de fumantes pela frequência está concentrado na faixa de $ 20 mil dólares.
 
-**(6)** **Qual é a mediana de custos de seguro médico por região?**
+**(6)** **Qual é a média de custos de seguro médico por região?**
 
 Basicamente, às regiões de segurados presentes nessa empresa de seguro são **(1)** sudeste (com 27 % de segurados), **(2)** sudoeste (com 24 %), **(3)** noroeste (com 24 %), e **(4)** nordeste (com 24 %).
 
 Com um gráfico de coluna, tal pergunta é facilmente respondida:
 
-![](./img/img_8.png)
+![](./img/img_11.png)
 
-O nordeste é a região em que 50 % dos segurados têm um custo superior à $ 10 mil dólares.
+O nordeste e o noroeste são às duas regiões de segurados com um custo de seguro médico em média mais alto do que em outras regiões
 
-Enquanto às demais regiões, com base na mediana de custos, apresentam um custo de seguro médico aproximadamente semelhante.
+Tais regiões tem segurados com um custo em média de $ 10 mil dólares, enquanto em regiões do sudoeste e sudeste o custo é em torno de $ 9 mil dólares
 
 **(7)** **Qual é a distribuição estatística do custos de seguro médico?**
 
 Com base nas informações estatísticas do custos de seguro médico é possível extrair os seguintes insights:
 
-* 
+* Em média, o custo de seguro médico dos segurados é de $ 9 mil dólares
+* 75 % dos segurados tem um custo de seguro médico acima de $ 4 mil dólares
+* 50 % têm um custo de seguro médico acima ou abaixo de $ 8 mil dólares
+* Somente 25 % dos segurados tem um custo de seguro médico acima de $ 12 mil dólares
+
+Estatisticamente, há como analisar a distribuição dos custos de seguro médico em um gráfico:
+
+![](./img/img_9.png)
+
+Pelo gráfico acima, é visível que há uma distribuição assimétrica para à direita, isto é, há dados atípicos (outliers) em tal variável que representam segurados com custos de seguro médico altíssimos em comparação ao restante de segurados.
+
+Com uma distribuição assimétrica à direita, isto significa que a maioria dos segurados têm um custo abaixo da média aparada ($ 9 mil dólares).
+
+Tal assimetria na variável de custos de seguro médico terá que ser tratada na fase de pré-processamento para que o modelo preditivo seja treinado acuradamente para prever o custo de seguro médico dos clientes.
+
+## Pré-processamento de dados:
+
+Nesta fase, o propósito é transformar e preparar o conjunto de dados, para que todos os dados de todas variáveis estejam adequadas para entrar no modelo de aprendizagem de máquina.
+
+### Label Encoding:
+
+Nesta fase, converti às variáveis categóricas do tipo texto (sex, smoker) em variáveis categóricas do tipo inteiro. Como a variável 'sex' representa o gênero dos segurados, então converti 'feminino' para 0 e 'masculino' para 1.
+
+Semelhante, como smoker representa se o segurado fuma ou não, então converti 'no' para 0 e 'yes' para 1.
+
+Abaixo, há o resultado das duas transformações:
+
+| sex |   sex  | smoker |
+|-----|--------|--------|
+| 0   | 0      | 1      |
+| 1   | 1      | 0      |
+| 2   | 1      | 0      |
+| 3   | 1      | 0      |
+| 4   | 1      | 0      |
+
+### One-Hot Encoding:
+
+Já nesta fase, realizei o mesmo processo de converter uma variável categórica do tipo texto (region) em variáveis numéricas de 0's e 1's, isto é, criei três colunas adicionais em que cada coluna representa uma região, se o segurado de uma linha for de uma região X, então a coluna X terá 1 e às demais regiões (Y, Z) receberão 0 (e vice-versa).
+
+Abaixo, o resultado de tal transformação:
+
+|           | northwest | southeast | southwest |
+|-----------|-----------|-----------|-----------|
+| 0         | 0         | 0         | 1         |
+| 1         | 0         | 1         | 0         |
+| 2         | 0         | 1         | 0         |
+| 3         | 1         | 0         | 0         |
+| 4         | 1         | 0         | 0         |
+
+## Dados de Treino & Dados de Teste:
+
+Após concluir uma parte da fase de pré-processamento de dados, dividi o conjunto de dados original em dois conjuntos de dados, um conjunto de dados com às **variáveis preditoras (ou independentes)** e outro com a **variável-alvo (ou target)**.
+
+Abaixo, a tabela com às variáveis preditoras que irão alimentar o modelo com dados, para que o modelo obtenha acurácia e precisão o suficiente para prever o custo de seguro médico dos segurados:
+
+|     | age | sex | bmi     |children| smoker    | northwest | southeast | southwest|
+|-----|-----|-----|---------|--------|-----------|-----------|-----------|----------|
+| 0   | 19  | 0   | 27.900  | 0      | 1         | 0         | 0         | 1        |
+| 1   | 18  | 1   | 33.770  | 1      | 0         | 0         | 1         | 0        |
+| 2   | 28  | 1   | 33.000  | 3      | 0         | 0         | 1         | 0        |
+| 3   | 33  | 1   | 22.705  | 0      | 0         | 1         | 0         | 0        |
+| 4   | 32  | 1   | 28.880  | 0      | 0         | 1         | 0         | 0        |
+
+Abaixo, um array com alguns dados da variável-target que será a variável em que o modelo focará em prever:
+
+```
+array([16884.924  ,  1725.5523 ,  4449.462  , 21984.47061,  3866.8552 ])
+```
+
+Depois dessa separação entre variáveis preditoras e variável-alvo, separei 80 % dos dados para treino e 20 % para teste:
+
+```
+# Divisão do conjunto de dados em dados de treino e dados de teste:
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, 
+                                                    test_size = 0.2, random_state = 32)
+ ```
+###
