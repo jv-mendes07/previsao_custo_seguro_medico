@@ -203,4 +203,122 @@ Depois dessa separação entre variáveis preditoras e variável-alvo, separei 8
 X_train, X_test, y_train, y_test = train_test_split(X, y, 
                                                     test_size = 0.2, random_state = 32)
  ```
-###
+### Transformação Log:
+
+Nesta última fase de pré-processamento de dados, coloquei a variável-alvo em uma escala logarítmica, para que a distribuição de dados da variável estive simetricamente mais normalizada, isto é, para que a variável de custo de seguro médico não tivesse tantos outliers (dados atípicos) que pudessem complicar e dificultar à taxa de aprendizagem do modelo de regressão.
+
+Abaixo, importei a função do sklearn para realizar tal transformação logarítmica:
+
+```
+# Importação de método para aplicar transformação logarítmica na variável-alvo:
+
+from sklearn.preprocessing import FunctionTransformer
+```
+
+Atribui tal função importada à uma variável:
+```
+# Atribuição de tal método transformacional para uma variável:
+
+transformer = FunctionTransformer(np.log1p)
+```
+
+Depois apliquei tal transformação logarítmica nos dados de treino da variável-alvo:
+
+```
+# Transformação logarítmica da variável-alvo nos dados de treino:
+
+y_train_log = transformer.fit_transform(y_train)
+```
+
+Para finalizar, apliquei à mesma transformação sob a variável-alvo nos dados de teste **(usei .transform ao invés do .fit_transform para evitar Data Leakage)**:
+
+```
+# Transformação logarítmica da variável-alvo nos dados de teste:
+
+y_test_log = transformer.transform(y_test)
+```
+
+## Treinamento e Avaliação do Modelo:
+
+Após testar vários modelos preditivos de regressão, o melhor modelo que obteve à maior acurácia preditiva avaliada pelo R-Score e pelo Erro Mediano Absoluto foi o algoritmo de Floresta Aleatória:
+
+### Floresta Aleatória:
+
+Primeiramente, atribui tal modelo de Floresta Aleatória importado à uma variável, defini 175 como a quantidade de árvores de decisão que serão criadas aleatoriamente pelo modelo preditivo de Floresta Aleatória:
+
+```
+# Floresta aleatória atribuída à uma variável:
+
+random_forest = RandomForestRegressor(n_estimators = 175)
+```
+Treinei tal modelo com os dados de treino:
+
+```
+# Treino da Floresta aleatória sobre dados de treino:
+
+random_forest.fit(X_train, y_train_log)
+```
+Depois usei o modelo treinado para prever o custo de seguro médico sobre os dados de teste da variável X **(variáveis preditoras)**:
+
+```
+# Predição de dados com o modelo treinado sobre os dados de teste:
+
+y_pred_02 = random_forest.predict(X_test)
+```
+Com os custos de seguro médico previstos pelo modelo de Floresta Aleatória, apliquei uma conversão da transformação logarítmica que foi aplicada anteriormente, para que os dados da variável-alvo retornassem para a escala original de custo de seguro médico em $ (dólares):
+
+```
+# Reversão da transformação logarítmica da variável-alvo:
+
+y_pred_original_scale_02 = np.exp(y_pred_02)
+```
+Por fim, usei o Cross-Validation para saber a acurácia média do modelo de Floresta Aleatória treinado:
+
+```
+# Média de acurácia preditiva do modelo de Floresta aleatória:
+
+cross_val_score(random_forest, X_test, y_test_log).mean()
+```
+Como saída obtive:
+```
+0.7998584405006498
+```
+Pela saída acima, é observável que em média, o modelo de Floresta Aleatória teve uma acurácia preditiva de aproximadamente 80 % em prever o custo de seguro médico dos segurados, ou seja, o modelo teve uma precisão de 80 % em explicar a variação de custos de seguro médico dos segurados.
+
+Para finalizar a avaliação do modelo treinado com mais uma métrica, calculei o Erro Mediano Absoluto do modelo:
+
+```
+# Erro mediano absoluto da Floresta aleatória:
+
+med_ae = metrics.median_absolute_error(np.exp(y_test_log), y_pred_original_scale_02)
+```
+
+Depois, exibi tal métrica calculada:
+
+```
+# Erro mediano absoluto:
+
+print(f'Erro Mediano Absoluto: {med_ae}')
+```
+Como saída obtive:
+```
+Erro Mediano Absoluto: 595.4826586552144
+```
+Basicamente, um Erro Mediano Absoluto de 595 significa que em média o modelo de regressão realiza previsões sobre os custos de seguro médico que aproximadamente tendem à ter 595 dólares de diferença em relação aos dados reais de custo de seguro médico **(que estão na variável y_test que armazena os dados de teste da variável-alvo para compara-los com os dados previstos pelo modelo)**.
+
+## Gráfico - Dados Previstos & Dados Reais
+
+Por fim, plotei um gráfico de linha com os dados previstos e os dados para analisar visualmente a proximidade ou distância dos dados previstos em relação aos dados reais de custo de seguro médico:
+
+![](./img/img_10.png)
+
+Como é observável no gráfico acima, há uma proximidade significativa dos dados previstos pelo modelo em relação aos dados reais, mesmo que em determinados pontos do gráfico haja diferenças gigantescas ou infímas entre os dados previstos e os dados reais de custo de seguro médico.
+
+## Conclusão do Projeto:
+
+Portanto, como conclusão do projeto, tal modelo de Floresta Aleatória obteve 80 % de acurácia em prever o custo de seguro médico e em explicar às variações nos custos de seguro médico dos segurados, e também tal modelo teve uma média de 595 dólares de taxa de erro nas previsões relativas aos dados reais de custo de seguro.
+
+Ou seja, construi e treinei um modelo minimamente adequado para prever o custo de seguro médico de futuros segurados que poderão contatar os serviços de tal empresa de seguro.
+
+Bom, era isso que tinha para mostrar, caso tenha gostado do projeto, recomendo compartilhar e favoritar tal projeto, para me ajudar no recebimento de feedbacks e na divulgação das habilidades analíticas que possuo.
+
