@@ -153,7 +153,7 @@ Semelhante, como smoker representa se o segurado fuma ou não, então converti '
 
 Abaixo, há o resultado das duas transformações:
 
-| sex |   sex  | smoker |
+|     |   sex  | smoker |
 |-----|--------|--------|
 | 0   | 0      | 1      |
 | 1   | 1      | 0      |
