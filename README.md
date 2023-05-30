@@ -73,7 +73,7 @@ Exibi um gráfico de coluna para responder tal questão:
 
 ![](./img/img_4.png)
 
-Como é observável acima, metade dos segurados que estão acima do peso apresentam tem um custo de seguro médico acima de $ 9 mil dólares, já os segurados com peso normal têm um custo de seguro médico acima ou abaixo de $ 8 mil dólares (com base na mediana).
+Como é observável acima, metade dos segurados que estão acima do peso apresentam um custo de seguro médico acima de $ 9 mil dólares, já os segurados com peso normal têm um custo de seguro médico acima ou abaixo de $ 8 mil dólares (com base na mediana).
 
 **(4)** **Qual é a distribuição estatística do IMC dos segurados?**
 
